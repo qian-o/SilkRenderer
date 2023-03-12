@@ -134,6 +134,8 @@ public unsafe class Framebuffer : FramebufferBase
         FramebufferHeight = framebufferHeight;
 
         ((IDXGISwapChain1*)SwapChainHandle)->ResizeBuffers(2, (uint)framebufferWidth, (uint)framebufferHeight, Format.FormatUnknown, 0);
+
+        TranslateTransform.Y = FramebufferHeight;
     }
 
     public override void Dispose()
