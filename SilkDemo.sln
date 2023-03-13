@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SilkDemo.WPF", "Demo.WPF\SilkDemo.WPF.csproj", "{6DC90250-7CF6-403A-9895-52FE38BBFE49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SilkDemo.WPF", "SilkDemo.WPF\SilkDemo.WPF.csproj", "{6DC90250-7CF6-403A-9895-52FE38BBFE49}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SilkDemo.WinUI", "Demo.WinUI\SilkDemo.WinUI.csproj", "{F01318DD-01C2-43E0-ACD7-A8954290C01C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SilkDemo.WinUI", "SilkDemo.WinUI\SilkDemo.WinUI.csproj", "{F01318DD-01C2-43E0-ACD7-A8954290C01C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
