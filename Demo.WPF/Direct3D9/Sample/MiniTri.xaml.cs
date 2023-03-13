@@ -1,4 +1,4 @@
-﻿using Demo.WPF.Common;
+﻿using SilkDemo.WPF.Common;
 using Silk.NET.Direct3D9;
 using Silk.NET.Maths;
 using System;
@@ -7,7 +7,7 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Windows.Controls;
 
-namespace Demo.WPF.Direct3D9.Sample;
+namespace SilkDemo.WPF.Direct3D9.Sample;
 
 public unsafe partial class MiniTri : UserControl
 {

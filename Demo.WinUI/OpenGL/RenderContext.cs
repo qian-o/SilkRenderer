@@ -9,7 +9,7 @@ using System;
 using System.Reflection;
 using System.Threading;
 
-namespace Demo.WinUI.OpenGL;
+namespace SilkDemo.WinUI.OpenGL;
 
 public unsafe class RenderContext
 {

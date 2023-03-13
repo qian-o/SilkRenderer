@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Interop;
 
-namespace Demo.WPF.Common;
+namespace SilkDemo.WPF.Common;
 public abstract class FramebufferBase : IDisposable
 {
     public abstract int FramebufferWidth { get; }

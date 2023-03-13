@@ -1,9 +1,9 @@
-<UserControl x:Class="Demo.WinUI.OpenGL.Sample.Materials"
+<UserControl x:Class="SilkDemo.WinUI.OpenGL.Sample.Materials"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:opengl="using:Demo.WinUI.OpenGL"
+             xmlns:opengl="using:SilkDemo.WinUI.OpenGL"
              mc:Ignorable="d">
 
     <Grid>

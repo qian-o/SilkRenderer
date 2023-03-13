@@ -1,7 +1,7 @@
 ﻿using OpenTK.Windowing.Common;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Demo.WPF.OpenGL;
+namespace SilkDemo.WPF.OpenGL;
 
 public class Settings
 {

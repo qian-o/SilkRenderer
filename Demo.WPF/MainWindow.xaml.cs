@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Demo.WPF;
+namespace SilkDemo.WPF;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>

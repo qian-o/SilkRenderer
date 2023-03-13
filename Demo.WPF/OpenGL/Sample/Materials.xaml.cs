@@ -1,4 +1,4 @@
-﻿using Demo.WPF.OpenGL.Common;
+﻿using SilkDemo.WPF.OpenGL.Common;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Demo.WPF.OpenGL.Sample;
+namespace SilkDemo.WPF.OpenGL.Sample;
 
 public partial class Materials : UserControl
 {

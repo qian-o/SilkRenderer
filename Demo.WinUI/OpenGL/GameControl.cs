@@ -1,11 +1,11 @@
-﻿using Demo.WinUI.Common;
+﻿using SilkDemo.WinUI.Common;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using System;
 using WinRT;
 
-namespace Demo.WinUI.OpenGL;
+namespace SilkDemo.WinUI.OpenGL;
 
 public unsafe class GameControl : GameBase<Framebuffer>
 {

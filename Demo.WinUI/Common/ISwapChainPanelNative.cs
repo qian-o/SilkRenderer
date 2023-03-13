@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Demo.WinUI.Common;
+namespace SilkDemo.WinUI.Common;
 
 [ComImport]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]

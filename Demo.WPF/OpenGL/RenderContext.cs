@@ -6,7 +6,7 @@ using Silk.NET.Direct3D9;
 using System;
 using System.Threading;
 
-namespace Demo.WPF.OpenGL;
+namespace SilkDemo.WPF.OpenGL;
 
 public unsafe class RenderContext
 {

@@ -1,4 +1,4 @@
-﻿using Demo.WinUI.Common;
+﻿using SilkDemo.WinUI.Common;
 using Microsoft.UI.Xaml.Media;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Graphics.Wgl;
@@ -9,7 +9,7 @@ using Silk.NET.DXGI;
 using System;
 using System.Reflection;
 
-namespace Demo.WinUI.OpenGL;
+namespace SilkDemo.WinUI.OpenGL;
 
 public unsafe class Framebuffer : FramebufferBase
 {

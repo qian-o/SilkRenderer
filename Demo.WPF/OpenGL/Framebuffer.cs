@@ -1,4 +1,4 @@
-﻿using Demo.WPF.Common;
+﻿using SilkDemo.WPF.Common;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Graphics.Wgl;
 using OpenTK.Platform.Windows;
@@ -7,7 +7,7 @@ using System;
 using System.Windows.Interop;
 using System.Windows.Media;
 
-namespace Demo.WPF.OpenGL;
+namespace SilkDemo.WPF.OpenGL;
 
 public unsafe class Framebuffer : FramebufferBase
 {

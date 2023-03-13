@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Demo.WPF.Common;
+namespace SilkDemo.WPF.Common;
 
 public abstract class GameBase<TFrame> : Control where TFrame : FramebufferBase
 {

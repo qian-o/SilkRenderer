@@ -1,12 +1,12 @@
-using Demo.WinUI.OpenGL.Common;
 using Microsoft.UI.Xaml.Controls;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
+using SilkDemo.WinUI.OpenGL.Common;
 using System;
 using System.IO;
 
-namespace Demo.WinUI.OpenGL.Sample;
+namespace SilkDemo.WinUI.OpenGL.Sample;
 
 public sealed partial class Materials : UserControl
 {

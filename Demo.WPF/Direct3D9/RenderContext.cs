@@ -1,7 +1,7 @@
 ﻿using Silk.NET.Direct3D9;
 using System;
 
-namespace Demo.WPF.Direct3D9;
+namespace SilkDemo.WPF.Direct3D9;
 
 public unsafe class RenderContext
 {

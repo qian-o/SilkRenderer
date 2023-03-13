@@ -1,9 +1,9 @@
-﻿using Demo.WPF.Common;
+﻿using SilkDemo.WPF.Common;
 using Silk.NET.Direct3D9;
 using System;
 using System.Windows.Interop;
 
-namespace Demo.WPF.Direct3D9;
+namespace SilkDemo.WPF.Direct3D9;
 
 public unsafe class Framebuffer : FramebufferBase
 {

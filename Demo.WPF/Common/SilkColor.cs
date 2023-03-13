@@ -3,7 +3,7 @@ using System.Numerics;
 using DrawingColor = System.Drawing.Color;
 using MediaColor = System.Windows.Media.Color;
 
-namespace Demo.WPF.Common;
+namespace SilkDemo.WPF.Common;
 
 public struct SilkColor
 {

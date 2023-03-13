@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Demo.WinUI.OpenGL.Common;
+namespace SilkDemo.WinUI.OpenGL.Common;
 
 // A simple class meant to help create shaders.
 public class Shader

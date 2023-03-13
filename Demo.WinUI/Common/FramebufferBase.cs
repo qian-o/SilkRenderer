@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Demo.WinUI.Common;
+namespace SilkDemo.WinUI.Common;
 public abstract class FramebufferBase : IDisposable
 {
     public abstract int FramebufferWidth { get; protected set; }

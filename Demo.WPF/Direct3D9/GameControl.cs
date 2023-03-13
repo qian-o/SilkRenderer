@@ -1,11 +1,11 @@
-﻿using Demo.WPF.Common;
+﻿using SilkDemo.WPF.Common;
 using Silk.NET.Direct3D9;
 using System;
 using System.Windows;
 using System.Windows.Media;
 using Rect = System.Windows.Rect;
 
-namespace Demo.WPF.Direct3D9;
+namespace SilkDemo.WPF.Direct3D9;
 
 public unsafe class GameControl : GameBase<Framebuffer>
 {

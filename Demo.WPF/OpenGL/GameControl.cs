@@ -1,11 +1,11 @@
-﻿using Demo.WPF.Common;
+﻿using SilkDemo.WPF.Common;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Graphics.Wgl;
 using System;
 using System.Windows;
 using System.Windows.Media;
 
-namespace Demo.WPF.OpenGL;
+namespace SilkDemo.WPF.OpenGL;
 
 public class GameControl : GameBase<Framebuffer>
 {

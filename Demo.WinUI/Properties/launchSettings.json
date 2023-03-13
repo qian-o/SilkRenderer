@@ -1,9 +1,9 @@
 {
   "profiles": {
-    "Demo.WinUI (Package)": {
+    "SilkDemo.WinUI (Package)": {
       "commandName": "MsixPackage"
     },
-    "Demo.WinUI (Unpackaged)": {
+    "SilkDemo.WinUI (Unpackaged)": {
       "commandName": "Project"
     }
   }

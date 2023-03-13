@@ -1,4 +1,4 @@
-using Demo.WinUI.OpenGL;
+using SilkDemo.WinUI.OpenGL;
 using Microsoft.UI.Xaml;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
@@ -6,7 +6,7 @@ using OpenTK.Windowing.Common;
 using System;
 using System.Diagnostics;
 
-namespace Demo.WinUI;
+namespace SilkDemo.WinUI;
 
 public sealed partial class MainWindow : Window
 {

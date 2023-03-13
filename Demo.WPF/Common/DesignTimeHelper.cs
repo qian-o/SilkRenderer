@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Demo.WPF.Common;
+namespace SilkDemo.WPF.Common;
 
 public static class DesignTimeHelper
 {

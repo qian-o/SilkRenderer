@@ -5,7 +5,7 @@ using System;
 using System.Diagnostics;
 using System.Windows.Controls;
 
-namespace Demo.WPF.OpenGL.Sample;
+namespace SilkDemo.WPF.OpenGL.Sample;
 
 public partial class ExampleScene : UserControl
 {

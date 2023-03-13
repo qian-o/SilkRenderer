@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Demo.WinUI.Common;
+namespace SilkDemo.WinUI.Common;
 
 public abstract class GameBase<TFrame> : ContentControl where TFrame : FramebufferBase
 {
