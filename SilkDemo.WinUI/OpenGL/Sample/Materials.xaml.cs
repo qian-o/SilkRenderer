@@ -2,14 +2,31 @@ using Microsoft.UI.Xaml.Controls;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 using SilkDemo.WinUI.OpenGL.Common;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace SilkDemo.WinUI.OpenGL.Sample;
 
 public sealed partial class Materials : UserControl
 {
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool GetAsyncKeyState(int vKey);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static partial bool GetCursorPos(out POINT pt);
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct POINT
+    {
+        public int X;
+        public int Y;
+    }
+
     const float cameraSpeed = 1.5f;
     const float sensitivity = 0.2f;
 
@@ -189,59 +206,56 @@ public sealed partial class Materials : UserControl
 
     private void Game_UpdateFrame(object arg1, TimeSpan arg2)
     {
-        //if (Keyboard.IsKeyDown(Key.W))
-        //{
-        //    _camera.Position += _camera.Front * cameraSpeed * (float)arg2.TotalSeconds;
-        //}
-        //if (Keyboard.IsKeyDown(Key.S))
-        //{
-        //    _camera.Position -= _camera.Front * cameraSpeed * (float)arg2.TotalSeconds;
-        //}
-        //if (Keyboard.IsKeyDown(Key.A))
-        //{
-        //    _camera.Position -= _camera.Right * cameraSpeed * (float)arg2.TotalSeconds;
-        //}
-        //if (Keyboard.IsKeyDown(Key.D))
-        //{
-        //    _camera.Position += _camera.Right * cameraSpeed * (float)arg2.TotalSeconds;
-        //}
-        //if (Keyboard.IsKeyDown(Key.E))
-        //{
-        //    _camera.Position += _camera.Up * cameraSpeed * (float)arg2.TotalSeconds;
-        //}
-        //if (Keyboard.IsKeyDown(Key.Q))
-        //{
-        //    _camera.Position -= _camera.Up * cameraSpeed * (float)arg2.TotalSeconds;
-        //}
+        if (GetAsyncKeyState((int)Keys.W))
+        {
+            _camera.Position += _camera.Front * cameraSpeed * (float)arg2.TotalSeconds;
+        }
+        if (GetAsyncKeyState((int)Keys.S))
+        {
+            _camera.Position -= _camera.Front * cameraSpeed * (float)arg2.TotalSeconds;
+        }
+        if (GetAsyncKeyState((int)Keys.A))
+        {
+            _camera.Position -= _camera.Right * cameraSpeed * (float)arg2.TotalSeconds;
+        }
+        if (GetAsyncKeyState((int)Keys.D))
+        {
+            _camera.Position += _camera.Right * cameraSpeed * (float)arg2.TotalSeconds;
+        }
+        if (GetAsyncKeyState((int)Keys.E))
+        {
+            _camera.Position += _camera.Up * cameraSpeed * (float)arg2.TotalSeconds;
+        }
+        if (GetAsyncKeyState((int)Keys.Q))
+        {
+            _camera.Position -= _camera.Up * cameraSpeed * (float)arg2.TotalSeconds;
+        }
 
-        //if (Mouse.RightButton == MouseButtonState.Pressed)
-        //{
-        //    Cursor = Cursors.None;
+        if (GetAsyncKeyState((int)MouseButton.Right))
+        {
+            GetCursorPos(out POINT point);
 
-        //    Point point = Mouse.GetPosition((Control)arg1);
-        //    float x = Convert.ToSingle(point.X);
-        //    float y = Convert.ToSingle(point.Y);
+            float x = Convert.ToSingle(point.X);
+            float y = Convert.ToSingle(point.Y);
 
-        //    if (_firstMove)
-        //    {
-        //        _lastPos = new Vector2(x, y);
-        //        _firstMove = false;
-        //    }
-        //    else
-        //    {
-        //        var deltaX = x - _lastPos.X;
-        //        var deltaY = y - _lastPos.Y;
-        //        _lastPos = new Vector2(x, y);
+            if (_firstMove)
+            {
+                _lastPos = new Vector2(x, y);
+                _firstMove = false;
+            }
+            else
+            {
+                var deltaX = x - _lastPos.X;
+                var deltaY = y - _lastPos.Y;
+                _lastPos = new Vector2(x, y);
 
-        //        _camera.Yaw += deltaX * sensitivity;
-        //        _camera.Pitch -= deltaY * sensitivity;
-        //    }
-        //}
-        //else
-        //{
-        //    Cursor = null;
-
-        //    _firstMove = true;
-        //}
+                _camera.Yaw += deltaX * sensitivity;
+                _camera.Pitch -= deltaY * sensitivity;
+            }
+        }
+        else
+        {
+            _firstMove = true;
+        }
     }
 }

@@ -75,10 +75,30 @@ public abstract class GameBase<TFrame> : ContentControl where TFrame : Framebuff
 
     public void Start()
     {
-        CompositionTarget.Rendering += CompositionTarget_Rendering;
+        Unloaded += (_, _) =>
+        {
+            EffectiveViewportChanged -= GameBase_EffectiveViewportChanged;
 
-        Loaded += (_, _) => InvalidateVisual();
+            CompositionTarget.Rendering -= CompositionTarget_Rendering;
+        };
+
+        Loaded += (_, _) =>
+        {
+            EffectiveViewportChanged += GameBase_EffectiveViewportChanged;
+
+            InvalidateVisual();
+        };
 
         OnStart();
+    }
+
+    private void GameBase_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
+    {
+        CompositionTarget.Rendering -= CompositionTarget_Rendering;
+
+        if (args.EffectiveViewport.Width != 1 && args.EffectiveViewport.Height != 1)
+        {
+            CompositionTarget.Rendering += CompositionTarget_Rendering;
+        }
     }
 }

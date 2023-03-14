@@ -1,7 +1,7 @@
-﻿using SilkDemo.WPF.OpenGL.Common;
-using OpenTK.Graphics.OpenGL4;
+﻿using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
+using SilkDemo.WPF.OpenGL.Common;
 using System;
 using System.Windows;
 using System.Windows.Controls;

@@ -1,7 +1,7 @@
-﻿using SilkDemo.WinUI.Common;
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
+using SilkDemo.WinUI.Common;
 using System;
 using WinRT;
 

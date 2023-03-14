@@ -1,11 +1,11 @@
-﻿using SilkDemo.WinUI.Common;
-using Microsoft.UI.Xaml.Media;
+﻿using Microsoft.UI.Xaml.Media;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Graphics.Wgl;
 using OpenTK.Platform.Windows;
 using Silk.NET.Core.Native;
 using Silk.NET.Direct3D11;
 using Silk.NET.DXGI;
+using SilkDemo.WinUI.Common;
 using System;
 using System.Reflection;
 

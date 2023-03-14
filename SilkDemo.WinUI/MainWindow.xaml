@@ -3,22 +3,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:opengl="using:SilkDemo.WinUI.OpenGL"
         xmlns:sample="using:SilkDemo.WinUI.OpenGL.Sample"
         mc:Ignorable="d">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="1*" />
-        </Grid.RowDefinitions>
-        <opengl:GameControl x:Name="Game"
-                            Grid.Column="0"
-                            Grid.Row="0" />
-        <sample:Materials Grid.Column="1"
-                          Grid.Row="1" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <sample:ExampleScene Grid.Column="0"
+                                 Grid.Row="0" />
+            <sample:ExampleScene Grid.Column="1"
+                                 Grid.Row="0" />
+            <sample:ExampleScene Grid.Column="0"
+                                 Grid.Row="1" />
+            <sample:Materials Grid.Column="1"
+                              Grid.Row="1" />
+        </Grid>
+
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   FontSize="18"
+                   Foreground="Red">
+            <Run Text="There should be no more than 4 SwapChainPanel instances per app" />
+            <LineBreak />
+            <Run Text="(https://learn.microsoft.com/zh-cn/windows/uwp/gaming/directx-and-xaml-interop)" />
+        </TextBlock>
     </Grid>
 </Window>

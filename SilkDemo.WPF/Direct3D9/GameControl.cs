@@ -1,5 +1,5 @@
-﻿using SilkDemo.WPF.Common;
-using Silk.NET.Direct3D9;
+﻿using Silk.NET.Direct3D9;
+using SilkDemo.WPF.Common;
 using System;
 using System.Windows;
 using System.Windows.Media;

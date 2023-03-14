@@ -1,6 +1,6 @@
-﻿using SilkDemo.WPF.Common;
-using Silk.NET.Direct3D9;
+﻿using Silk.NET.Direct3D9;
 using Silk.NET.Maths;
+using SilkDemo.WPF.Common;
 using System;
 using System.Diagnostics;
 using System.Numerics;

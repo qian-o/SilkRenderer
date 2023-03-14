@@ -1,8 +1,8 @@
-﻿using SilkDemo.WPF.Common;
-using OpenTK.Graphics.OpenGL;
+﻿using OpenTK.Graphics.OpenGL;
 using OpenTK.Graphics.Wgl;
 using OpenTK.Platform.Windows;
 using Silk.NET.Direct3D9;
+using SilkDemo.WPF.Common;
 using System;
 using System.Windows.Interop;
 using System.Windows.Media;

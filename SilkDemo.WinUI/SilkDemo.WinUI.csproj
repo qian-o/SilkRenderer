@@ -3,7 +3,7 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-		<RootNamespace>Demo.WinUI</RootNamespace>
+		<RootNamespace>SilkDemo.WinUI</RootNamespace>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<Platforms>x64</Platforms>
 		<RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
@@ -14,6 +14,7 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="OpenGL\Sample\ExampleScene.xaml" />
 	  <None Remove="OpenGL\Sample\Materials.xaml" />
 	</ItemGroup>
 
@@ -49,6 +50,9 @@
 	  </Page>
 	</ItemGroup>
 	<ItemGroup>
+	  <Page Update="OpenGL\Sample\ExampleScene.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	  <None Update="OpenGL\Sample\Shaders\lighting.frag">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
