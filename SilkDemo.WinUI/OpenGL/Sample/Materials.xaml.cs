@@ -14,7 +14,7 @@ public sealed partial class Materials : UserControl
 {
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static partial bool GetAsyncKeyState(int vKey);
+    public static partial bool GetAsyncKeyState(VirtualKeyCodes vKey);
 
     [LibraryImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
@@ -25,6 +25,19 @@ public sealed partial class Materials : UserControl
     {
         public int X;
         public int Y;
+    }
+
+    public enum VirtualKeyCodes
+    {
+        VK_LBUTTON = 0x01,
+        VK_RBUTTON = 0x02,
+
+        W = 0x57,
+        A = 0x41,
+        S = 0x53,
+        D = 0x44,
+        E = 0x45,
+        Q = 0x51
     }
 
     const float cameraSpeed = 1.5f;
@@ -206,32 +219,32 @@ public sealed partial class Materials : UserControl
 
     private void Game_UpdateFrame(object arg1, TimeSpan arg2)
     {
-        if (GetAsyncKeyState((int)Keys.W))
+        if (GetAsyncKeyState(VirtualKeyCodes.W))
         {
             _camera.Position += _camera.Front * cameraSpeed * (float)arg2.TotalSeconds;
         }
-        if (GetAsyncKeyState((int)Keys.S))
+        if (GetAsyncKeyState(VirtualKeyCodes.S))
         {
             _camera.Position -= _camera.Front * cameraSpeed * (float)arg2.TotalSeconds;
         }
-        if (GetAsyncKeyState((int)Keys.A))
+        if (GetAsyncKeyState(VirtualKeyCodes.A))
         {
             _camera.Position -= _camera.Right * cameraSpeed * (float)arg2.TotalSeconds;
         }
-        if (GetAsyncKeyState((int)Keys.D))
+        if (GetAsyncKeyState(VirtualKeyCodes.D))
         {
             _camera.Position += _camera.Right * cameraSpeed * (float)arg2.TotalSeconds;
         }
-        if (GetAsyncKeyState((int)Keys.E))
+        if (GetAsyncKeyState(VirtualKeyCodes.E))
         {
             _camera.Position += _camera.Up * cameraSpeed * (float)arg2.TotalSeconds;
         }
-        if (GetAsyncKeyState((int)Keys.Q))
+        if (GetAsyncKeyState(VirtualKeyCodes.Q))
         {
             _camera.Position -= _camera.Up * cameraSpeed * (float)arg2.TotalSeconds;
         }
 
-        if (GetAsyncKeyState((int)MouseButton.Right))
+        if (GetAsyncKeyState(VirtualKeyCodes.VK_RBUTTON))
         {
             GetCursorPos(out POINT point);
 
