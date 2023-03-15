@@ -22,7 +22,8 @@
             <sample:ExampleScene Grid.Column="0"
                                  Grid.Row="1" />
             <sample:Materials Grid.Column="1"
-                              Grid.Row="1" />
+                              Grid.Row="1"
+                              DoubleTapped="Materials_DoubleTapped" />
         </Grid>
 
         <TextBlock HorizontalAlignment="Center"
