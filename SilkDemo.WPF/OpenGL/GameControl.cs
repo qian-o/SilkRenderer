@@ -1,5 +1,6 @@
-﻿using OpenTK.Graphics.OpenGL;
-using OpenTK.Graphics.Wgl;
+﻿using Silk.NET.Maths;
+using Silk.NET.OpenGL;
+using Silk.NET.WGL.Extensions.NV;
 using SilkDemo.WPF.Common;
 using System;
 using System.Windows;
@@ -40,14 +41,14 @@ public class GameControl : GameBase<Framebuffer>
     {
         Framebuffer.D3dImage.Lock();
 
-        Wgl.DXLockObjectsNV(_context.GlDeviceHandle, 1, new[] { Framebuffer.DxInteropRegisteredHandle });
-        GL.BindFramebuffer(FramebufferTarget.Framebuffer, Framebuffer.GLFramebufferHandle);
+        RenderContext.NVDXInterop.DxlockObjects(_context.GlDeviceHandle, 1, new[] { Framebuffer.DxInteropRegisteredHandle });
+        RenderContext.Gl.BindFramebuffer(FramebufferTarget.Framebuffer, Framebuffer.GLFramebufferHandle);
 
-        GL.Viewport(0, 0, Framebuffer.FramebufferWidth, Framebuffer.FramebufferHeight);
+        RenderContext.Gl.Viewport(new Rectangle<int>(0, 0, Framebuffer.FramebufferWidth, Framebuffer.FramebufferHeight));
         Render?.Invoke(_stopwatch.Elapsed - _lastFrameStamp);
 
-        GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-        Wgl.DXUnlockObjectsNV(_context.GlDeviceHandle, 1, new[] { Framebuffer.DxInteropRegisteredHandle });
+        RenderContext.Gl.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+        RenderContext.NVDXInterop.DxunlockObjects(_context.GlDeviceHandle, 1, new[] { Framebuffer.DxInteropRegisteredHandle });
 
         Framebuffer.D3dImage.AddDirtyRect(new Int32Rect(0, 0, Framebuffer.FramebufferWidth, Framebuffer.FramebufferHeight));
         Framebuffer.D3dImage.Unlock();

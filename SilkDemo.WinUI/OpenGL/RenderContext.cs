@@ -38,12 +38,12 @@ public unsafe class RenderContext
         // Factory
         {
             Guid guid = typeof(IDXGIFactory2).GetTypeInfo().GUID;
-            DXGI.GetApi().CreateDXGIFactory2(0, &guid, (void**)&factory);
+            DXGI.GetApi(null).CreateDXGIFactory2(0, &guid, (void**)&factory);
         }
 
         // Device
         {
-            D3D11.GetApi().CreateDevice(null, D3DDriverType.Hardware, 0, 0, null, 0, D3D11.SdkVersion, &device, null, &devCtx);
+            D3D11.GetApi(null).CreateDevice(null, D3DDriverType.Hardware, 0, 0, null, 0, D3D11.SdkVersion, &device, null, &devCtx);
         }
 
         DxDeviceFactory = (IntPtr)factory;

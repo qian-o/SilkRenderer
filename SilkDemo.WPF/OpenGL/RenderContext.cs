@@ -1,18 +1,24 @@
-﻿using OpenTK.Graphics.Wgl;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
-using OpenTK.Windowing.GraphicsLibraryFramework;
+﻿using Silk.NET.Core.Contexts;
 using Silk.NET.Direct3D9;
+using Silk.NET.GLFW;
+using Silk.NET.OpenGL;
+using Silk.NET.WGL.Extensions.NV;
 using System;
 using System.Threading;
+using Monitor = Silk.NET.GLFW.Monitor;
 
 namespace SilkDemo.WPF.OpenGL;
 
 public unsafe class RenderContext
 {
-    private static IGraphicsContext _sharedContext;
     private static Settings _sharedContextSettings;
     private static int _sharedContextReferenceCount;
+
+    public static Glfw Glfw { get; private set; }
+
+    public static GL Gl { get; private set; }
+
+    public static NVDXInterop NVDXInterop { get; private set; }
 
     public Format Format { get; }
 
@@ -20,13 +26,11 @@ public unsafe class RenderContext
 
     public IntPtr GlDeviceHandle { get; }
 
-    public IGraphicsContext GraphicsContext { get; }
-
     public RenderContext(Settings settings)
     {
         IDirect3D9Ex* direct3D9;
         IDirect3DDevice9Ex* device;
-        D3D9.GetApi().Direct3DCreate9Ex(D3D9.SdkVersion, &direct3D9);
+        D3D9.GetApi(null).Direct3DCreate9Ex(D3D9.SdkVersion, &direct3D9);
 
         Displaymodeex pMode = new((uint)sizeof(Displaymodeex));
         direct3D9->GetAdapterDisplayModeEx(D3D9.AdapterDefault, ref pMode, null);
@@ -53,44 +57,52 @@ public unsafe class RenderContext
 
         DxDeviceHandle = (IntPtr)device;
 
-        GraphicsContext = GetOrCreateSharedOpenGLContext(settings);
-        GlDeviceHandle = Wgl.DXOpenDeviceNV((IntPtr)device);
+        GetOrCreateSharedOpenGLContext(settings);
+
+        GlDeviceHandle = NVDXInterop.DxopenDevice(device);
     }
 
-    private static IGraphicsContext GetOrCreateSharedOpenGLContext(Settings settings)
+    private static void GetOrCreateSharedOpenGLContext(Settings settings)
     {
-        if (_sharedContext == null)
+        if (_sharedContextSettings == null)
         {
-            NativeWindowSettings windowSettings = NativeWindowSettings.Default;
-            windowSettings.StartFocused = false;
-            windowSettings.StartVisible = false;
-            windowSettings.NumberOfSamples = 0;
-            windowSettings.APIVersion = new Version(settings.MajorVersion, settings.MinorVersion);
-            windowSettings.Flags = ContextFlags.Offscreen | settings.GraphicsContextFlags;
-            windowSettings.Profile = settings.GraphicsProfile;
-            windowSettings.WindowBorder = WindowBorder.Hidden;
-            windowSettings.WindowState = WindowState.Minimized;
-            NativeWindow nativeWindow = new(windowSettings);
-            Wgl.LoadBindings(new GLFWBindingsContext());
+            Glfw = Glfw.GetApi();
 
-            _sharedContext = nativeWindow.Context;
+            Glfw.Init();
+
+            Glfw.WindowHint(WindowHintBool.Decorated, false);
+
+            Glfw.WindowHint(WindowHintClientApi.ClientApi, ClientApi.OpenGL);
+
+            Glfw.WindowHint(WindowHintInt.ContextVersionMajor, settings.MajorVersion);
+            Glfw.WindowHint(WindowHintInt.ContextVersionMinor, settings.MinorVersion);
+
+            Glfw.WindowHint(WindowHintOpenGlProfile.OpenGlProfile, settings.OpenGlProfile);
+
+            Glfw.WindowHint(WindowHintBool.Focused, false);
+            Glfw.WindowHint(WindowHintBool.Visible, false);
+            Glfw.WindowHint(WindowHintInt.Samples, 0);
+            Glfw.WindowHint(WindowHintBool.SrgbCapable, false);
+
+            Monitor* monitor = Glfw.GetPrimaryMonitor();
+            VideoMode* videoMode = Glfw.GetVideoMode(monitor);
+
+            Glfw.WindowHint(WindowHintInt.RedBits, videoMode->RedBits);
+            Glfw.WindowHint(WindowHintInt.GreenBits, videoMode->GreenBits);
+            Glfw.WindowHint(WindowHintInt.BlueBits, videoMode->BlueBits);
+            Glfw.WindowHint(WindowHintInt.RefreshRate, videoMode->RefreshRate);
+
+            WindowHandle* window = Glfw.CreateWindow(640, 360, "OpenGL Window", null, null);
+            Glfw.MakeContextCurrent(window);
+            Glfw.SetWindowSizeLimits(window, -1, -1, -1, -1);
+
+            Gl = GL.GetApi(new LamdaNativeContext(Glfw.GetProcAddress));
+
+            NVDXInterop = new(new LamdaNativeContext(Glfw.GetProcAddress));
+
             _sharedContextSettings = settings;
-
-            _sharedContext.MakeCurrent();
-        }
-        else
-        {
-            if (!Settings.WouldResultInSameContext(settings, _sharedContextSettings))
-            {
-                throw new ArgumentException($"The provided {nameof(Settings)} would result" +
-                                                $"in a different context creation to one previously created. To fix this," +
-                                                $" either ensure all of your context settings are identical, or provide an " +
-                                                $"external context via the '{nameof(Settings.ContextToUse)}' field.");
-            }
         }
 
         Interlocked.Increment(ref _sharedContextReferenceCount);
-
-        return _sharedContext;
     }
 }

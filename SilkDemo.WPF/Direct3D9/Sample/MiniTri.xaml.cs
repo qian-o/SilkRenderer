@@ -74,6 +74,6 @@ public unsafe partial class MiniTri : UserControl
         Game.Device->DrawPrimitive(Primitivetype.Trianglelist, 0, 1);
 
         Game.Device->EndScene();
-        Game.Device->Present((Rectangle<int>*)IntPtr.Zero, (Rectangle<int>*)IntPtr.Zero, 1, (RGNData*)IntPtr.Zero);
+        Game.Device->Present((Box2D<int>*)IntPtr.Zero, (Box2D<int>*)IntPtr.Zero, 1, (RGNData*)IntPtr.Zero);
     }
 }

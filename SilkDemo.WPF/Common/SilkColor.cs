@@ -751,18 +751,9 @@ public struct SilkColor
         R = (byte)(rgba & 0xFFu);
     }
 
-    public int ToBgra()
-    {
-        return B | (G << 8) | (R << 16) | (A << 24);
-    }
-    public int ToRgba()
-    {
-        return R | (G << 8) | (B << 16) | (A << 24);
-    }
-    public int ToAbgr()
-    {
-        return A | (B << 8) | (G << 16) | (R << 24);
-    }
+    public readonly int ToBgra() => B | (G << 8) | (R << 16) | (A << 24);
+    public readonly int ToRgba() => R | (G << 8) | (B << 16) | (A << 24);
+    public readonly int ToAbgr() => A | (B << 8) | (G << 16) | (R << 24);
 
     public static SilkColor FromDrawingColor(DrawingColor color)
     {

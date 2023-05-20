@@ -13,7 +13,7 @@ public unsafe class RenderContext
     {
         IDirect3D9Ex* direct3D9;
         IDirect3DDevice9Ex* device;
-        D3D9.GetApi().Direct3DCreate9Ex(D3D9.SdkVersion, &direct3D9);
+        D3D9.GetApi(null).Direct3DCreate9Ex(D3D9.SdkVersion, &direct3D9);
 
         Displaymodeex pMode = new((uint)sizeof(Displaymodeex));
         direct3D9->GetAdapterDisplayModeEx(D3D9.AdapterDefault, ref pMode, null);

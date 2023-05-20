@@ -1,4 +1,5 @@
 ﻿using OpenTK.Windowing.Common;
+using Silk.NET.GLFW;
 using System.Diagnostics.CodeAnalysis;
 
 namespace SilkDemo.WPF.OpenGL;
@@ -12,6 +13,8 @@ public class Settings
     public ContextFlags GraphicsContextFlags { get; set; } = ContextFlags.Default;
 
     public ContextProfile GraphicsProfile { get; set; } = ContextProfile.Core;
+
+    public OpenGlProfile OpenGlProfile { get; set; } = OpenGlProfile.Core;
 
     public IGraphicsContext ContextToUse { get; set; }
 
