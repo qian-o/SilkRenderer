@@ -1,4 +1,4 @@
-# SilkDemo
+# SilkRenderer
 ## WPF、WinUI3 使用 Silk.NET 绘制示例（OpenGL、DirectX）
 
 ## WPF、WinUI3 Use Silk.NET to draw examples (OpenGL, DirectX)
