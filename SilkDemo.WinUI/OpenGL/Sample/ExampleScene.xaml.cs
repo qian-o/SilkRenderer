@@ -90,6 +90,8 @@ public sealed partial class ExampleScene : UserControl
 
         float hue = (float)_stopwatch.Elapsed.TotalSeconds * 0.15f % 1;
 
+        gl.Disable(EnableCap.DepthTest);
+
         gl.ClearColor(SilkColor.ByDrawingColor(SilkColor.FromHsv(new Vector4(1.0f * hue, 1.0f * 0.75f, 1.0f * 0.75f, 1.0f))));
         gl.Clear(ClearBufferMask.ColorBufferBit);
 

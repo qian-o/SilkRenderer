@@ -165,6 +165,8 @@ public sealed partial class Materials : UserControl
     {
         _camera.AspectRatio = (float)(ActualWidth / ActualHeight);
 
+        RenderContext.GL.Enable(EnableCap.DepthTest);
+
         RenderContext.GL.ClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         RenderContext.GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         RenderContext.GL.BindVertexArray(_vaoModel);

@@ -179,7 +179,7 @@ public class Shader
     public unsafe void SetMatrix4(string name, Matrix4x4 data)
     {
         RenderContext.GL.UseProgram(Handle);
-        RenderContext.GL.UniformMatrix4(_uniformLocations[name], 1, false, &data.M11);
+        RenderContext.GL.UniformMatrix4(_uniformLocations[name], 1, true, (float*)&data);
     }
 
     /// <summary>
