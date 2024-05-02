@@ -92,11 +92,11 @@ public class Shader
 
         // Check for compilation errors
         RenderContext.GL.GetShader(shader, GLEnum.CompileStatus, out var code);
-        if (code != 0)
+        if (code != (int)GLEnum.True)
         {
             // We can use `GL.GetShaderInfoLog(shader)` to get information about the error.
             var infoLog = RenderContext.GL.GetShaderInfoLog(shader);
-            // throw new Exception($"Error occurred whilst compiling Shader({shader}).\n\n{infoLog}");
+            throw new Exception($"Error occurred whilst compiling Shader({shader}).\n\n{infoLog}");
         }
     }
 
@@ -107,10 +107,10 @@ public class Shader
 
         // Check for linking errors
         RenderContext.GL.GetProgram(program, GLEnum.LinkStatus, out var code);
-        if (code != 0)
+        if (code != (int)GLEnum.True)
         {
             // We can use `GL.GetProgramInfoLog(program)` to get information about the error.
-            // throw new Exception($"Error occurred whilst linking Program({program})");
+            throw new Exception($"Error occurred whilst linking Program({program})");
         }
     }
 

@@ -92,7 +92,7 @@ public class Shader
 
         // Check for compilation errors
         RenderContext.GL.GetShader(shader, GLEnum.CompileStatus, out var code);
-        if (code != 0)
+        if (code != (int)GLEnum.True)
         {
             // We can use `GL.GetShaderInfoLog(shader)` to get information about the error.
             var infoLog = RenderContext.GL.GetShaderInfoLog(shader);
@@ -107,7 +107,7 @@ public class Shader
 
         // Check for linking errors
         RenderContext.GL.GetProgram(program, GLEnum.LinkStatus, out var code);
-        if (code != 0)
+        if (code != (int)GLEnum.True)
         {
             // We can use `GL.GetProgramInfoLog(program)` to get information about the error.
             throw new Exception($"Error occurred whilst linking Program({program})");
@@ -179,7 +179,7 @@ public class Shader
     public unsafe void SetMatrix4(string name, Matrix4x4 data)
     {
         RenderContext.GL.UseProgram(Handle);
-        RenderContext.GL.UniformMatrix4(_uniformLocations[name], 1, false, &data.M11);
+        RenderContext.GL.UniformMatrix4(_uniformLocations[name], 1, true, (float*)&data);
     }
 
     /// <summary>

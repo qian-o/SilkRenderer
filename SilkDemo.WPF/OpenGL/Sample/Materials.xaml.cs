@@ -97,11 +97,9 @@ public partial class Materials : UserControl
 
     private void Game_Ready()
     {
-        RenderContext.GL.Enable(EnableCap.DepthTest);
-
         _vertexBufferObject = RenderContext.GL.GenBuffer();
         RenderContext.GL.BindBuffer(GLEnum.ArrayBuffer, _vertexBufferObject);
-        RenderContext.GL.BufferData(GLEnum.ArrayBuffer, (uint)_vertices.Length * sizeof(float), ref _vertices[0], GLEnum.StaticDraw);
+        RenderContext.GL.BufferData<float>(GLEnum.ArrayBuffer, (uint)_vertices.Length * sizeof(float), _vertices, GLEnum.StaticDraw);
 
         _lightingShader = new Shader("OpenGL/Sample/Shaders/shader.vert", "OpenGL/Sample/Shaders/lighting.frag");
         _lampShader = new Shader("OpenGL/Sample/Shaders/shader.vert", "OpenGL/Sample/Shaders/shader.frag");
@@ -117,6 +115,8 @@ public partial class Materials : UserControl
             var normalLocation = _lightingShader.GetAttribLocation("aNormal");
             RenderContext.GL.EnableVertexAttribArray((uint)normalLocation);
             RenderContext.GL.VertexAttribPointer((uint)normalLocation, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
+
+            RenderContext.GL.BindVertexArray(0);
         }
 
         {
@@ -126,14 +126,20 @@ public partial class Materials : UserControl
             var positionLocation = _lampShader.GetAttribLocation("aPos");
             RenderContext.GL.EnableVertexAttribArray((uint)positionLocation);
             RenderContext.GL.VertexAttribPointer((uint)positionLocation, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
+
+            RenderContext.GL.BindVertexArray(0);
         }
 
         _camera = new Camera(Vector3.UnitZ * 3, 0);
+
+        RenderContext.GL.BindBuffer(GLEnum.ArrayBuffer, 0);
     }
 
     private void Game_Render(TimeSpan obj)
     {
         _camera.AspectRatio = (float)(ActualWidth / ActualHeight);
+
+        RenderContext.GL.Enable(EnableCap.DepthTest);
 
         RenderContext.GL.ClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         RenderContext.GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -187,6 +193,8 @@ public partial class Materials : UserControl
 
         _lightingShader.Discard();
         _lampShader.Discard();
+
+        RenderContext.GL.BindVertexArray(0);
     }
 
     private void Game_UpdateFrame(object arg1, TimeSpan arg2)
