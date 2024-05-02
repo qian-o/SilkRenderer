@@ -1,10 +1,10 @@
-﻿using Silk.NET.Direct3D9;
+﻿using System;
+using System.Windows.Interop;
+using System.Windows.Media;
+using Silk.NET.Direct3D9;
 using Silk.NET.OpenGL;
 using Silk.NET.WGL.Extensions.NV;
 using SilkDemo.WPF.Common;
-using System;
-using System.Windows.Interop;
-using System.Windows.Media;
 
 namespace SilkDemo.WPF.OpenGL;
 
@@ -53,7 +53,7 @@ public unsafe class Framebuffer : FramebufferBase
 
         GLDepthRenderBufferHandle = RenderContext.GL.GenRenderbuffer();
         RenderContext.GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, GLDepthRenderBufferHandle);
-        RenderContext.GL.RenderbufferStorage((GLEnum)RenderbufferTarget.Renderbuffer,GLEnum.Depth24Stencil8, (uint)FramebufferWidth, (uint)FramebufferHeight);
+        RenderContext.GL.RenderbufferStorage((GLEnum)RenderbufferTarget.Renderbuffer, GLEnum.Depth24Stencil8, (uint)FramebufferWidth, (uint)FramebufferHeight);
 
         RenderContext.GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, GLDepthRenderBufferHandle);
         RenderContext.GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.StencilAttachment, RenderbufferTarget.Renderbuffer, GLDepthRenderBufferHandle);

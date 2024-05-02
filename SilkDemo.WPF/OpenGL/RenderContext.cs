@@ -2,9 +2,7 @@
 using System.Threading;
 using Silk.NET.Core.Contexts;
 using Silk.NET.Direct3D9;
-using Silk.NET.GLFW;
 using Silk.NET.OpenGL;
-using Silk.NET.WGL;
 using Silk.NET.WGL.Extensions.NV;
 using Silk.NET.Windowing;
 

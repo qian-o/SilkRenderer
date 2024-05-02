@@ -78,7 +78,7 @@ public class Shader
             var key = RenderContext.GL.GetActiveUniform(Handle, i, out _, out _);
 
             // get the location,
-            var location = RenderContext.GL.GetUniformLocation(Handle,key);
+            var location = RenderContext.GL.GetUniformLocation(Handle, key);
 
             // and then add it to the dictionary.
             _uniformLocations.Add(key, location);

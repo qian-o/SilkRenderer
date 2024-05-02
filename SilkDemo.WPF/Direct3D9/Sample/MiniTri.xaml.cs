@@ -1,11 +1,11 @@
-﻿using Silk.NET.Direct3D9;
-using Silk.NET.Maths;
-using SilkDemo.WPF.Common;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Windows.Controls;
+using Silk.NET.Direct3D9;
+using Silk.NET.Maths;
+using SilkDemo.WPF.Common;
 
 namespace SilkDemo.WPF.Direct3D9.Sample;
 

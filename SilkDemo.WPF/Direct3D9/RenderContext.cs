@@ -1,5 +1,5 @@
-﻿using Silk.NET.Direct3D9;
-using System;
+﻿using System;
+using Silk.NET.Direct3D9;
 
 namespace SilkDemo.WPF.Direct3D9;
 

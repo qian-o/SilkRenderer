@@ -1,7 +1,7 @@
-﻿using SilkDemo.WPF.OpenGL;
-using System.Windows;
+﻿using System.Windows;
 
 namespace SilkDemo.WPF;
+
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>

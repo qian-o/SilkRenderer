@@ -1,8 +1,8 @@
-﻿using Silk.NET.Direct3D9;
-using SilkDemo.WPF.Common;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Media;
+using Silk.NET.Direct3D9;
+using SilkDemo.WPF.Common;
 using Rect = System.Windows.Rect;
 
 namespace SilkDemo.WPF.Direct3D9;

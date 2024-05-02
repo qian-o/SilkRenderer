@@ -1,6 +1,6 @@
-﻿using Silk.NET.Core.Native;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
+using Silk.NET.Core.Native;
 
 namespace SilkDemo.WinUI.Common;
 

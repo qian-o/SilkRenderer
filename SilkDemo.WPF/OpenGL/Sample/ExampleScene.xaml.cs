@@ -1,11 +1,10 @@
-﻿using Silk.NET.OpenGL;
-using SilkDemo.WPF.Common;
-using System;
+﻿using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
+using Silk.NET.OpenGL;
+using SilkDemo.WPF.Common;
 
 namespace SilkDemo.WPF.OpenGL.Sample;
 

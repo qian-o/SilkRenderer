@@ -1,7 +1,7 @@
-﻿using Silk.NET.Direct3D9;
-using SilkDemo.WPF.Common;
-using System;
+﻿using System;
 using System.Windows.Interop;
+using Silk.NET.Direct3D9;
+using SilkDemo.WPF.Common;
 
 namespace SilkDemo.WPF.Direct3D9;
 

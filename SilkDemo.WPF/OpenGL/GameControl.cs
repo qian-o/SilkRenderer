@@ -1,10 +1,10 @@
-﻿using Silk.NET.Maths;
+﻿using System;
+using System.Windows;
+using System.Windows.Media;
+using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.WGL.Extensions.NV;
 using SilkDemo.WPF.Common;
-using System;
-using System.Windows;
-using System.Windows.Media;
 
 namespace SilkDemo.WPF.OpenGL;
 
