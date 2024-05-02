@@ -1,11 +1,12 @@
-﻿using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
-using OpenTK.Windowing.Common;
-using SilkDemo.WPF.OpenGL.Common;
-using System;
+﻿using System;
+using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Silk.NET.OpenGL;
+using Silk.NET.Windowing;
+using SilkDemo.WPF.OpenGL.Common;
+using Shader = SilkDemo.WPF.OpenGL.Common.Shader;
 
 namespace SilkDemo.WPF.OpenGL.Sample;
 
@@ -62,11 +63,11 @@ public partial class Materials : UserControl
 
     private readonly Vector3 _lightPos = new(1.2f, 1.0f, 2.0f);
 
-    private int _vertexBufferObject;
+    private uint _vertexBufferObject;
 
-    private int _vaoModel;
+    private uint _vaoModel;
 
-    private int _vaoLamp;
+    private uint _vaoLamp;
 
     private Shader _lampShader;
 
@@ -96,35 +97,35 @@ public partial class Materials : UserControl
 
     private void Game_Ready()
     {
-        GL.Enable(EnableCap.DepthTest);
+        RenderContext.GL.Enable(EnableCap.DepthTest);
 
-        _vertexBufferObject = GL.GenBuffer();
-        GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
-        GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Length * sizeof(float), _vertices, BufferUsageHint.StaticDraw);
+        _vertexBufferObject = RenderContext.GL.GenBuffer();
+        RenderContext.GL.BindBuffer(GLEnum.ArrayBuffer, _vertexBufferObject);
+        RenderContext.GL.BufferData(GLEnum.ArrayBuffer, (uint)_vertices.Length * sizeof(float), ref _vertices[0], GLEnum.StaticDraw);
 
         _lightingShader = new Shader("OpenGL/Sample/Shaders/shader.vert", "OpenGL/Sample/Shaders/lighting.frag");
         _lampShader = new Shader("OpenGL/Sample/Shaders/shader.vert", "OpenGL/Sample/Shaders/shader.frag");
 
         {
-            _vaoModel = GL.GenVertexArray();
-            GL.BindVertexArray(_vaoModel);
+            _vaoModel = RenderContext.GL.GenVertexArray();
+            RenderContext.GL.BindVertexArray(_vaoModel);
 
             var positionLocation = _lightingShader.GetAttribLocation("aPos");
-            GL.EnableVertexAttribArray(positionLocation);
-            GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
+            RenderContext.GL.EnableVertexAttribArray((uint)positionLocation);
+            RenderContext.GL.VertexAttribPointer((uint)positionLocation, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
 
             var normalLocation = _lightingShader.GetAttribLocation("aNormal");
-            GL.EnableVertexAttribArray(normalLocation);
-            GL.VertexAttribPointer(normalLocation, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
+            RenderContext.GL.EnableVertexAttribArray((uint)normalLocation);
+            RenderContext.GL.VertexAttribPointer((uint)normalLocation, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
         }
 
         {
-            _vaoLamp = GL.GenVertexArray();
-            GL.BindVertexArray(_vaoLamp);
+            _vaoLamp = RenderContext.GL.GenVertexArray();
+            RenderContext.GL.BindVertexArray(_vaoLamp);
 
             var positionLocation = _lampShader.GetAttribLocation("aPos");
-            GL.EnableVertexAttribArray(positionLocation);
-            GL.VertexAttribPointer(positionLocation, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
+            RenderContext.GL.EnableVertexAttribArray((uint)positionLocation);
+            RenderContext.GL.VertexAttribPointer((uint)positionLocation, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
         }
 
         _camera = new Camera(Vector3.UnitZ * 3, 0);
@@ -134,12 +135,12 @@ public partial class Materials : UserControl
     {
         _camera.AspectRatio = (float)(ActualWidth / ActualHeight);
 
-        GL.ClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-        GL.BindVertexArray(_vaoModel);
+        RenderContext.GL.ClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+        RenderContext.GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+        RenderContext.GL.BindVertexArray(_vaoModel);
         _lightingShader.Use();
 
-        _lightingShader.SetMatrix4("model", Matrix4.Identity);
+        _lightingShader.SetMatrix4("model", Matrix4x4.Identity);
         _lightingShader.SetMatrix4("view", _camera.GetViewMatrix());
         _lightingShader.SetMatrix4("projection", _camera.GetProjectionMatrix());
 
@@ -168,21 +169,21 @@ public partial class Materials : UserControl
         _lightingShader.SetVector3("light.diffuse", diffuseColor);
         _lightingShader.SetVector3("light.specular", new Vector3(1.0f, 1.0f, 1.0f));
 
-        GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
+        RenderContext.GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
 
-        GL.BindVertexArray(_vaoLamp);
+        RenderContext.GL.BindVertexArray(_vaoLamp);
 
         _lampShader.Use();
 
-        Matrix4 lampMatrix = Matrix4.Identity;
-        lampMatrix *= Matrix4.CreateScale(0.2f);
-        lampMatrix *= Matrix4.CreateTranslation(_lightPos);
+        Matrix4x4 lampMatrix = Matrix4x4.Identity;
+        lampMatrix *= Matrix4x4.CreateScale(0.2f);
+        lampMatrix *= Matrix4x4.CreateTranslation(_lightPos);
 
         _lampShader.SetMatrix4("model", lampMatrix);
         _lampShader.SetMatrix4("view", _camera.GetViewMatrix());
         _lampShader.SetMatrix4("projection", _camera.GetProjectionMatrix());
 
-        GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
+        RenderContext.GL.DrawArrays(PrimitiveType.Triangles, 0, 36);
 
         _lightingShader.Discard();
         _lampShader.Discard();

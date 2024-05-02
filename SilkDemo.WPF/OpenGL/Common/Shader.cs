@@ -1,15 +1,15 @@
-﻿using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
+using Silk.NET.OpenGL;
 
 namespace SilkDemo.WPF.OpenGL.Common;
 
 // A simple class meant to help create shaders.
 public class Shader
 {
-    public readonly int Handle;
+    public readonly uint Handle;
 
     private readonly Dictionary<string, int> _uniformLocations;
 
@@ -26,88 +26,88 @@ public class Shader
         //   The fragment shader is what we'll be using the most here.
 
         // Load vertex shader and compile
-        var shaderSource = File.ReadAllText(vertPath);
+        string shaderSource = File.ReadAllText(vertPath);
 
         // GL.CreateShader will create an empty shader (obviously). The ShaderType enum denotes which type of shader will be created.
-        var vertexShader = GL.CreateShader(ShaderType.VertexShader);
+        uint vertexShader = RenderContext.GL.CreateShader(ShaderType.VertexShader);
 
         // Now, bind the GLSL source code
-        GL.ShaderSource(vertexShader, shaderSource);
+        RenderContext.GL.ShaderSource(vertexShader, shaderSource);
 
         // And then compile
         CompileShader(vertexShader);
 
         // We do the same for the fragment shader.
         shaderSource = File.ReadAllText(fragPath);
-        var fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
-        GL.ShaderSource(fragmentShader, shaderSource);
+        var fragmentShader = RenderContext.GL.CreateShader(ShaderType.FragmentShader);
+        RenderContext.GL.ShaderSource(fragmentShader, shaderSource);
         CompileShader(fragmentShader);
 
         // These two shaders must then be merged into a shader program, which can then be used by OpenGL.
         // To do this, create a program...
-        Handle = GL.CreateProgram();
+        Handle = RenderContext.GL.CreateProgram();
 
         // Attach both shaders...
-        GL.AttachShader(Handle, vertexShader);
-        GL.AttachShader(Handle, fragmentShader);
+        RenderContext.GL.AttachShader(Handle, vertexShader);
+        RenderContext.GL.AttachShader(Handle, fragmentShader);
 
         // And then link them together.
         LinkProgram(Handle);
 
         // When the shader program is linked, it no longer needs the individual shaders attached to it; the compiled code is copied into the shader program.
         // Detach them, and then delete them.
-        GL.DetachShader(Handle, vertexShader);
-        GL.DetachShader(Handle, fragmentShader);
-        GL.DeleteShader(fragmentShader);
-        GL.DeleteShader(vertexShader);
+        RenderContext.GL.DetachShader(Handle, vertexShader);
+        RenderContext.GL.DetachShader(Handle, fragmentShader);
+        RenderContext.GL.DeleteShader(fragmentShader);
+        RenderContext.GL.DeleteShader(vertexShader);
 
         // The shader is now ready to go, but first, we're going to cache all the shader uniform locations.
         // Querying this from the shader is very slow, so we do it once on initialization and reuse those values
         // later.
 
         // First, we have to get the number of active uniforms in the shader.
-        GL.GetProgram(Handle, GetProgramParameterName.ActiveUniforms, out var numberOfUniforms);
+        RenderContext.GL.GetProgram(Handle, GLEnum.ActiveUniforms, out var numberOfUniforms);
 
         // Next, allocate the dictionary to hold the locations.
         _uniformLocations = new Dictionary<string, int>();
 
         // Loop over all the uniforms,
-        for (var i = 0; i < numberOfUniforms; i++)
+        for (uint i = 0; i < numberOfUniforms; i++)
         {
             // get the name of this uniform,
-            var key = GL.GetActiveUniform(Handle, i, out _, out _);
+            var key = RenderContext.GL.GetActiveUniform(Handle, i, out _, out _);
 
             // get the location,
-            var location = GL.GetUniformLocation(Handle, key);
+            var location = RenderContext.GL.GetUniformLocation(Handle,key);
 
             // and then add it to the dictionary.
             _uniformLocations.Add(key, location);
         }
     }
 
-    private static void CompileShader(int shader)
+    private static void CompileShader(uint shader)
     {
         // Try to compile the shader
-        GL.CompileShader(shader);
+        RenderContext.GL.CompileShader(shader);
 
         // Check for compilation errors
-        GL.GetShader(shader, ShaderParameter.CompileStatus, out var code);
-        if (code != (int)All.True)
+        RenderContext.GL.GetShader(shader, GLEnum.CompileStatus, out var code);
+        if (code != 0)
         {
             // We can use `GL.GetShaderInfoLog(shader)` to get information about the error.
-            var infoLog = GL.GetShaderInfoLog(shader);
+            var infoLog = RenderContext.GL.GetShaderInfoLog(shader);
             throw new Exception($"Error occurred whilst compiling Shader({shader}).\n\n{infoLog}");
         }
     }
 
-    private static void LinkProgram(int program)
+    private static void LinkProgram(uint program)
     {
         // We link the program
-        GL.LinkProgram(program);
+        RenderContext.GL.LinkProgram(program);
 
         // Check for linking errors
-        GL.GetProgram(program, GetProgramParameterName.LinkStatus, out var code);
-        if (code != (int)All.True)
+        RenderContext.GL.GetProgram(program, GLEnum.LinkStatus, out var code);
+        if (code != 0)
         {
             // We can use `GL.GetProgramInfoLog(program)` to get information about the error.
             throw new Exception($"Error occurred whilst linking Program({program})");
@@ -117,14 +117,14 @@ public class Shader
     // A wrapper function that enables the shader program.
     public void Use()
     {
-        GL.UseProgram(Handle);
+        RenderContext.GL.UseProgram(Handle);
     }
 
     public void Discard()
     {
-        if (GL.IsProgram(Handle))
+        if (RenderContext.GL.IsProgram(Handle))
         {
-            GL.UseProgram(0);
+            RenderContext.GL.UseProgram(0);
         }
     }
 
@@ -132,7 +132,7 @@ public class Shader
     // you can omit the layout(location=X) lines in the vertex shader, and use this in VertexAttribPointer instead of the hardcoded values.
     public int GetAttribLocation(string attribName)
     {
-        return GL.GetAttribLocation(Handle, attribName);
+        return RenderContext.GL.GetAttribLocation(Handle, attribName);
     }
 
     // Uniform setters
@@ -151,8 +151,8 @@ public class Shader
     /// <param name="data">The data to set</param>
     public void SetInt(string name, int data)
     {
-        GL.UseProgram(Handle);
-        GL.Uniform1(_uniformLocations[name], data);
+        RenderContext.GL.UseProgram(Handle);
+        RenderContext.GL.Uniform1(_uniformLocations[name], data);
     }
 
     /// <summary>
@@ -162,8 +162,8 @@ public class Shader
     /// <param name="data">The data to set</param>
     public void SetFloat(string name, float data)
     {
-        GL.UseProgram(Handle);
-        GL.Uniform1(_uniformLocations[name], data);
+        RenderContext.GL.UseProgram(Handle);
+        RenderContext.GL.Uniform1(_uniformLocations[name], data);
     }
 
     /// <summary>
@@ -176,10 +176,10 @@ public class Shader
     ///   The matrix is transposed before being sent to the shader.
     ///   </para>
     /// </remarks>
-    public void SetMatrix4(string name, Matrix4 data)
+    public unsafe void SetMatrix4(string name, Matrix4x4 data)
     {
-        GL.UseProgram(Handle);
-        GL.UniformMatrix4(_uniformLocations[name], true, ref data);
+        RenderContext.GL.UseProgram(Handle);
+        RenderContext.GL.UniformMatrix4(_uniformLocations[name], 1, false, &data.M11);
     }
 
     /// <summary>
@@ -189,7 +189,7 @@ public class Shader
     /// <param name="data">The data to set</param>
     public void SetVector3(string name, Vector3 data)
     {
-        GL.UseProgram(Handle);
-        GL.Uniform3(_uniformLocations[name], data);
+        RenderContext.GL.UseProgram(Handle);
+        RenderContext.GL.Uniform3(_uniformLocations[name], data);
     }
 }

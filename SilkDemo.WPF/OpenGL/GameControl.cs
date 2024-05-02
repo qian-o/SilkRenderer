@@ -42,12 +42,12 @@ public class GameControl : GameBase<Framebuffer>
         Framebuffer.D3dImage.Lock();
 
         RenderContext.NVDXInterop.DxlockObjects(_context.GlDeviceHandle, 1, new[] { Framebuffer.DxInteropRegisteredHandle });
-        RenderContext.Gl.BindFramebuffer(FramebufferTarget.Framebuffer, Framebuffer.GLFramebufferHandle);
+        RenderContext.GL.BindFramebuffer(FramebufferTarget.Framebuffer, Framebuffer.GLFramebufferHandle);
 
-        RenderContext.Gl.Viewport(new Rectangle<int>(0, 0, Framebuffer.FramebufferWidth, Framebuffer.FramebufferHeight));
+        RenderContext.GL.Viewport(new Rectangle<int>(0, 0, Framebuffer.FramebufferWidth, Framebuffer.FramebufferHeight));
         Render?.Invoke(_stopwatch.Elapsed - _lastFrameStamp);
 
-        RenderContext.Gl.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+        RenderContext.GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
         RenderContext.NVDXInterop.DxunlockObjects(_context.GlDeviceHandle, 1, new[] { Framebuffer.DxInteropRegisteredHandle });
 
         Framebuffer.D3dImage.AddDirtyRect(new Int32Rect(0, 0, Framebuffer.FramebufferWidth, Framebuffer.FramebufferHeight));

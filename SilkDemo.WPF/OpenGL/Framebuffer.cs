@@ -43,21 +43,21 @@ public unsafe class Framebuffer : FramebufferBase
 
         RenderContext.NVDXInterop.DxsetResourceShareHandle(surface, (nint)surfacePtr);
 
-        GLFramebufferHandle = RenderContext.Gl.GenFramebuffer();
-        GLSharedTextureHandle = RenderContext.Gl.GenTexture();
+        GLFramebufferHandle = RenderContext.GL.GenFramebuffer();
+        GLSharedTextureHandle = RenderContext.GL.GenTexture();
 
         DxInteropRegisteredHandle = RenderContext.NVDXInterop.DxregisterObject(context.GlDeviceHandle, surface, GLSharedTextureHandle, (NV)TextureTarget.Texture2D, NV.AccessReadWriteNV);
 
-        RenderContext.Gl.BindFramebuffer(FramebufferTarget.Framebuffer, GLFramebufferHandle);
-        RenderContext.Gl.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, GLSharedTextureHandle, 0);
+        RenderContext.GL.BindFramebuffer(FramebufferTarget.Framebuffer, GLFramebufferHandle);
+        RenderContext.GL.FramebufferTexture2D(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D, GLSharedTextureHandle, 0);
 
-        GLDepthRenderBufferHandle = RenderContext.Gl.GenRenderbuffer();
-        RenderContext.Gl.BindRenderbuffer(RenderbufferTarget.Renderbuffer, GLDepthRenderBufferHandle);
-        RenderContext.Gl.RenderbufferStorage((GLEnum)RenderbufferTarget.Renderbuffer,GLEnum.Depth24Stencil8, (uint)FramebufferWidth, (uint)FramebufferHeight);
+        GLDepthRenderBufferHandle = RenderContext.GL.GenRenderbuffer();
+        RenderContext.GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, GLDepthRenderBufferHandle);
+        RenderContext.GL.RenderbufferStorage((GLEnum)RenderbufferTarget.Renderbuffer,GLEnum.Depth24Stencil8, (uint)FramebufferWidth, (uint)FramebufferHeight);
 
-        RenderContext.Gl.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, GLDepthRenderBufferHandle);
-        RenderContext.Gl.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.StencilAttachment, RenderbufferTarget.Renderbuffer, GLDepthRenderBufferHandle);
-        RenderContext.Gl.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+        RenderContext.GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, GLDepthRenderBufferHandle);
+        RenderContext.GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.StencilAttachment, RenderbufferTarget.Renderbuffer, GLDepthRenderBufferHandle);
+        RenderContext.GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 
         D3dImage = new D3DImage();
         D3dImage.Lock();
@@ -70,9 +70,9 @@ public unsafe class Framebuffer : FramebufferBase
 
     public override void Dispose()
     {
-        RenderContext.Gl.DeleteFramebuffer(GLFramebufferHandle);
-        RenderContext.Gl.DeleteRenderbuffer(GLDepthRenderBufferHandle);
-        RenderContext.Gl.DeleteTexture(GLSharedTextureHandle);
+        RenderContext.GL.DeleteFramebuffer(GLFramebufferHandle);
+        RenderContext.GL.DeleteRenderbuffer(GLDepthRenderBufferHandle);
+        RenderContext.GL.DeleteTexture(GLSharedTextureHandle);
         RenderContext.NVDXInterop.DxunregisterObject(Context.GlDeviceHandle, DxInteropRegisteredHandle);
 
         GC.SuppressFinalize(this);

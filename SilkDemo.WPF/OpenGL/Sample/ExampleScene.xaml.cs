@@ -32,7 +32,7 @@ public partial class ExampleScene : UserControl
 
     private unsafe void Game_Loaded(object sender, RoutedEventArgs e)
     {
-        GL gl = RenderContext.Gl;
+        GL gl = RenderContext.GL;
         gl.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
         float[] vertices = {
@@ -88,7 +88,7 @@ public partial class ExampleScene : UserControl
 
     private void Game_Render(TimeSpan obj)
     {
-        GL gl = RenderContext.Gl;
+        GL gl = RenderContext.GL;
 
         float hue = (float)_stopwatch.Elapsed.TotalSeconds * 0.15f % 1;
 

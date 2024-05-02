@@ -10,24 +10,23 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="OpenTK" Version="4.8.2" />
 		<PackageReference Include="Silk.NET.Direct3D9" Version="2.21.0" />
-		<PackageReference Include="Silk.NET.GLFW" Version="2.21.0" />
 		<PackageReference Include="Silk.NET.Maths" Version="2.21.0" />
 		<PackageReference Include="Silk.NET.OpenGL" Version="2.21.0" />
 		<PackageReference Include="Silk.NET.WGL.Extensions.NV" Version="2.21.0" />
+		<PackageReference Include="Silk.NET.Windowing" Version="2.21.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="OpenGL\Sample\Shaders\lighting.frag">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="OpenGL\Sample\Shaders\shader.frag">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="OpenGL\Sample\Shaders\shader.vert">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
+		<None Update="OpenGL\Sample\Shaders\lighting.frag">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="OpenGL\Sample\Shaders\shader.frag">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="OpenGL\Sample\Shaders\shader.vert">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
-	
+
 </Project>
