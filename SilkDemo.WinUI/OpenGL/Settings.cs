@@ -1,5 +1,6 @@
-﻿using OpenTK.Windowing.Common;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+using Silk.NET.GLFW;
+using Silk.NET.Windowing;
 
 namespace SilkDemo.WinUI.OpenGL;
 
@@ -13,7 +14,7 @@ public class Settings
 
     public ContextProfile GraphicsProfile { get; set; } = ContextProfile.Core;
 
-    public IGraphicsContext ContextToUse { get; set; }
+    public OpenGlProfile OpenGlProfile { get; set; } = OpenGlProfile.Core;
 
     public static bool WouldResultInSameContext([NotNull] Settings a, [NotNull] Settings b)
     {

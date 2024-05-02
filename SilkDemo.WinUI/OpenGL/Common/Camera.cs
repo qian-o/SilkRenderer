@@ -1,5 +1,6 @@
-﻿using OpenTK.Mathematics;
-using System;
+﻿using System;
+using System.Numerics;
+using SilkDemo.WinUI.Common;
 
 namespace SilkDemo.WinUI.OpenGL.Common;
 
@@ -87,15 +88,15 @@ public class Camera
     }
 
     // Get the view matrix using the amazing LookAt function described more in depth on the web tutorials
-    public Matrix4 GetViewMatrix()
+    public Matrix4x4 GetViewMatrix()
     {
-        return Matrix4.LookAt(Position, Position + _front, _up);
+        return Matrix4x4.CreateLookAt(Position, Position + _front, _up);
     }
 
     // Get the projection matrix using the same method we have used up until this point
-    public Matrix4 GetProjectionMatrix()
+    public Matrix4x4 GetProjectionMatrix()
     {
-        return Matrix4.CreatePerspectiveFieldOfView(_fov, AspectRatio, 0.01f, 100f);
+        return Matrix4x4.CreatePerspectiveFieldOfView(_fov, AspectRatio, 0.01f, 100f);
     }
 
     // This function is going to update the direction vertices using some of the math learned in the web tutorials.

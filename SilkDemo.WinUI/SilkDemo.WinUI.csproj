@@ -30,8 +30,11 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
-		<PackageReference Include="OpenTK" Version="4.8.2" />
 		<PackageReference Include="Silk.NET.Direct3D11" Version="2.21.0" />
+		<PackageReference Include="Silk.NET.Maths" Version="2.21.0" />
+		<PackageReference Include="Silk.NET.OpenGL" Version="2.21.0" />
+		<PackageReference Include="Silk.NET.WGL.Extensions.NV" Version="2.21.0" />
+		<PackageReference Include="Silk.NET.Windowing" Version="2.21.0" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 

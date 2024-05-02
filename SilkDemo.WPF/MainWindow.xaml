@@ -21,7 +21,7 @@
                 <sampleD3D:MiniTri />
             </UniformGrid>
         </TabItem>
-        <!--<TabItem Header="OpenGL 1">
+        <TabItem Header="OpenGL 1">
             <UniformGrid Rows="2"
                          Columns="2">
                 <sampleGL:ExampleScene />
@@ -29,13 +29,13 @@
                 <sampleGL:ExampleScene />
                 <sampleGL:ExampleScene />
             </UniformGrid>
-        </TabItem>-->
-        <!--<TabItem Header="OpenGL 2">
+        </TabItem>
+        <TabItem Header="OpenGL 2">
             <UniformGrid Rows="1"
                          Columns="1">
                 <sampleGL:Materials />
             </UniformGrid>
-        </TabItem>-->
+        </TabItem>
         <TabItem Header="OpenGL Silk">
             <UniformGrid Rows="2"
                          Columns="2">

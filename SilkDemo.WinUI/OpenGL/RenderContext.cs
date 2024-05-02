@@ -1,21 +1,24 @@
-﻿using OpenTK.Graphics.Wgl;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
-using OpenTK.Windowing.GraphicsLibraryFramework;
+﻿using System;
+using System.Reflection;
+using System.Threading;
+using Silk.NET.Core.Contexts;
 using Silk.NET.Core.Native;
 using Silk.NET.Direct3D11;
 using Silk.NET.DXGI;
-using System;
-using System.Reflection;
-using System.Threading;
+using Silk.NET.OpenGL;
+using Silk.NET.WGL.Extensions.NV;
+using Silk.NET.Windowing;
 
 namespace SilkDemo.WinUI.OpenGL;
 
 public unsafe class RenderContext
 {
-    private static IGraphicsContext _sharedContext;
     private static Settings _sharedContextSettings;
     private static int _sharedContextReferenceCount;
+
+    public static GL GL { get; private set; }
+
+    public static NVDXInterop NVDXInterop { get; private set; }
 
     public Format Format { get; }
 
@@ -26,8 +29,6 @@ public unsafe class RenderContext
     public IntPtr DxDeviceContext { get; }
 
     public IntPtr GlDeviceHandle { get; }
-
-    public IGraphicsContext GraphicsContext { get; }
 
     public RenderContext(Settings settings)
     {
@@ -50,44 +51,34 @@ public unsafe class RenderContext
         DxDeviceHandle = (IntPtr)device;
         DxDeviceContext = (IntPtr)devCtx;
 
-        GraphicsContext = GetOrCreateSharedOpenGLContext(settings);
-        GlDeviceHandle = Wgl.DXOpenDeviceNV((IntPtr)device);
+        GetOrCreateSharedOpenGLContext(settings);
+
+        GlDeviceHandle = NVDXInterop.DxopenDevice(device);
     }
 
-    private static IGraphicsContext GetOrCreateSharedOpenGLContext(Settings settings)
+    private static void GetOrCreateSharedOpenGLContext(Settings settings)
     {
-        if (_sharedContext == null)
+        if (_sharedContextSettings == null)
         {
-            NativeWindowSettings windowSettings = NativeWindowSettings.Default;
-            windowSettings.StartFocused = false;
-            windowSettings.StartVisible = false;
-            windowSettings.NumberOfSamples = 0;
-            windowSettings.APIVersion = new Version(settings.MajorVersion, settings.MinorVersion);
-            windowSettings.Flags = ContextFlags.Offscreen | settings.GraphicsContextFlags;
-            windowSettings.Profile = settings.GraphicsProfile;
-            windowSettings.WindowBorder = WindowBorder.Hidden;
-            windowSettings.WindowState = WindowState.Minimized;
-            NativeWindow nativeWindow = new(windowSettings);
-            Wgl.LoadBindings(new GLFWBindingsContext());
+            WindowOptions options = WindowOptions.Default;
 
-            _sharedContext = nativeWindow.Context;
-            _sharedContextSettings = settings;
+            options.API = new GraphicsAPI(ContextAPI.OpenGL, settings.GraphicsProfile, settings.GraphicsContextFlags, new APIVersion(settings.MajorVersion, settings.MinorVersion));
+            options.IsVisible = false;
 
-            _sharedContext.MakeCurrent();
-        }
-        else
-        {
-            if (!Settings.WouldResultInSameContext(settings, _sharedContextSettings))
+            IWindow window = Window.Create(options);
+
+            window.CreateWindow(options);
+            window.Initialize();
+
+            GL = window.CreateOpenGL();
+            NVDXInterop = new(new LamdaNativeContext((name) =>
             {
-                throw new ArgumentException($"The provided {nameof(Settings)} would result" +
-                                                $"in a different context creation to one previously created. To fix this," +
-                                                $" either ensure all of your context settings are identical, or provide an " +
-                                                $"external context via the '{nameof(Settings.ContextToUse)}' field.");
-            }
+                return GL.Context.GetProcAddress(name);
+            }));
+
+            _sharedContextSettings = settings;
         }
 
         Interlocked.Increment(ref _sharedContextReferenceCount);
-
-        return _sharedContext;
     }
 }

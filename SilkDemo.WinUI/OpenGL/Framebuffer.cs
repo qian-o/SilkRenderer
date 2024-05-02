@@ -1,13 +1,12 @@
-﻿using Microsoft.UI.Xaml.Media;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Graphics.Wgl;
-using OpenTK.Platform.Windows;
+﻿using System;
+using System.Reflection;
+using Microsoft.UI.Xaml.Media;
 using Silk.NET.Core.Native;
 using Silk.NET.Direct3D11;
 using Silk.NET.DXGI;
+using Silk.NET.OpenGL;
+using Silk.NET.WGL.Extensions.NV;
 using SilkDemo.WinUI.Common;
-using System;
-using System.Reflection;
 
 namespace SilkDemo.WinUI.OpenGL;
 
@@ -19,11 +18,11 @@ public unsafe class Framebuffer : FramebufferBase
 
     public override int FramebufferHeight { get; protected set; }
 
-    public int GLColorRenderbufferHandle { get; set; }
+    public uint GLColorRenderbufferHandle { get; set; }
 
-    public int GLDepthRenderBufferHandle { get; set; }
+    public uint GLDepthRenderBufferHandle { get; set; }
 
-    public int GLFramebufferHandle { get; set; }
+    public uint GLFramebufferHandle { get; set; }
 
     public IntPtr DxInteropColorHandle { get; set; }
 
@@ -66,7 +65,7 @@ public unsafe class Framebuffer : FramebufferBase
             SwapChainHandle = (IntPtr)swapChain;
         }
 
-        GLFramebufferHandle = GL.GenFramebuffer();
+        GLFramebufferHandle = RenderContext.GL.GenFramebuffer();
 
         TranslateTransform = new TranslateTransform
         {
@@ -84,7 +83,7 @@ public unsafe class Framebuffer : FramebufferBase
     {
         ID3D11Texture2D* colorbuffer;
 
-        GL.BindFramebuffer(FramebufferTarget.Framebuffer, GLFramebufferHandle);
+        RenderContext.GL.BindFramebuffer(FramebufferTarget.Framebuffer, GLFramebufferHandle);
 
         // Texture2D
         {
@@ -94,36 +93,36 @@ public unsafe class Framebuffer : FramebufferBase
 
         // GL
         {
-            GLColorRenderbufferHandle = GL.GenRenderbuffer();
-            GLDepthRenderBufferHandle = GL.GenRenderbuffer();
+            GLColorRenderbufferHandle = RenderContext.GL.GenRenderbuffer();
+            GLDepthRenderBufferHandle = RenderContext.GL.GenRenderbuffer();
 
-            DxInteropColorHandle = Wgl.DXRegisterObjectNV(Context.GlDeviceHandle, (nint)colorbuffer, (uint)GLColorRenderbufferHandle, (uint)RenderbufferTarget.Renderbuffer, WGL_NV_DX_interop.AccessReadWrite);
-            GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, RenderbufferTarget.Renderbuffer, (uint)GLColorRenderbufferHandle);
+            DxInteropColorHandle = RenderContext.NVDXInterop.DxregisterObject(Context.GlDeviceHandle, (void*)colorbuffer, (uint)GLColorRenderbufferHandle, (NV)RenderbufferTarget.Renderbuffer, NV.AccessReadWriteNV);
+            RenderContext.GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.ColorAttachment0, RenderbufferTarget.Renderbuffer, GLColorRenderbufferHandle);
 
-            GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, GLDepthRenderBufferHandle);
-            GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.Depth24Stencil8, FramebufferWidth, FramebufferHeight);
-            GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, (uint)GLDepthRenderBufferHandle);
-            GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.StencilAttachment, RenderbufferTarget.Renderbuffer, (uint)GLDepthRenderBufferHandle);
+            RenderContext.GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, GLDepthRenderBufferHandle);
+            RenderContext.GL.RenderbufferStorage(GLEnum.Renderbuffer, GLEnum.Depth24Stencil8, (uint)FramebufferWidth, (uint)FramebufferHeight);
+            RenderContext.GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, (uint)GLDepthRenderBufferHandle);
+            RenderContext.GL.FramebufferRenderbuffer(FramebufferTarget.Framebuffer, FramebufferAttachment.StencilAttachment, RenderbufferTarget.Renderbuffer, (uint)GLDepthRenderBufferHandle);
         }
 
         colorbuffer->Release();
 
-        Wgl.DXLockObjectsNV(Context.GlDeviceHandle, 1, new[] { DxInteropColorHandle });
+        RenderContext.NVDXInterop.DxlockObjects(Context.GlDeviceHandle, 1, new[] { DxInteropColorHandle });
 
-        GL.BindFramebuffer(FramebufferTarget.Framebuffer, GLFramebufferHandle);
-        GL.Viewport(0, 0, FramebufferWidth, FramebufferHeight);
+        RenderContext.GL.BindFramebuffer(FramebufferTarget.Framebuffer, GLFramebufferHandle);
+        RenderContext.GL.Viewport(0, 0, (uint)FramebufferWidth, (uint)FramebufferHeight);
     }
 
     public void End()
     {
-        GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
+        RenderContext.GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 
-        Wgl.DXUnlockObjectsNV(Context.GlDeviceHandle, 1, new[] { DxInteropColorHandle });
+        RenderContext.NVDXInterop.DxunlockObjects(Context.GlDeviceHandle, 1, new[] { DxInteropColorHandle });
 
-        Wgl.DXUnregisterObjectNV(Context.GlDeviceHandle, DxInteropColorHandle);
+        RenderContext.NVDXInterop.DxunregisterObject(Context.GlDeviceHandle, DxInteropColorHandle);
 
-        GL.DeleteRenderbuffer(GLColorRenderbufferHandle);
-        GL.DeleteRenderbuffer(GLDepthRenderBufferHandle);
+        RenderContext.GL.DeleteRenderbuffer(GLColorRenderbufferHandle);
+        RenderContext.GL.DeleteRenderbuffer(GLDepthRenderBufferHandle);
 
         ((IDXGISwapChain1*)SwapChainHandle)->Present(1, 0);
     }
@@ -140,11 +139,11 @@ public unsafe class Framebuffer : FramebufferBase
 
     public override void Dispose()
     {
-        GL.DeleteFramebuffer(GLFramebufferHandle);
+        RenderContext.GL.DeleteFramebuffer(GLFramebufferHandle);
 
-        Wgl.DXUnregisterObjectNV(Context.GlDeviceHandle, DxInteropColorHandle);
-        GL.DeleteRenderbuffer(GLColorRenderbufferHandle);
-        GL.DeleteRenderbuffer(GLDepthRenderBufferHandle);
+        RenderContext.NVDXInterop.DxunregisterObject(Context.GlDeviceHandle, DxInteropColorHandle);
+        RenderContext.GL.DeleteRenderbuffer(GLColorRenderbufferHandle);
+        RenderContext.GL.DeleteRenderbuffer(GLDepthRenderBufferHandle);
 
         GC.SuppressFinalize(this);
     }
