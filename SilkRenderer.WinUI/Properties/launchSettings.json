@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SilkRenderer.WinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "SilkRenderer.WinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
