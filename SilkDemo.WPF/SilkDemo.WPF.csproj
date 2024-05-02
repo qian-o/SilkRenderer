@@ -10,12 +10,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="OpenTK" Version="4.7.7" />
-		<PackageReference Include="Silk.NET.Direct3D9" Version="2.17.1" />
-		<PackageReference Include="Silk.NET.GLFW" Version="2.17.1" />
-		<PackageReference Include="Silk.NET.Maths" Version="2.17.1" />
-		<PackageReference Include="Silk.NET.OpenGL" Version="2.17.1" />
-		<PackageReference Include="Silk.NET.WGL.Extensions.NV" Version="2.17.1" />
+		<PackageReference Include="OpenTK" Version="4.8.2" />
+		<PackageReference Include="Silk.NET.Direct3D9" Version="2.21.0" />
+		<PackageReference Include="Silk.NET.GLFW" Version="2.21.0" />
+		<PackageReference Include="Silk.NET.Maths" Version="2.21.0" />
+		<PackageReference Include="Silk.NET.OpenGL" Version="2.21.0" />
+		<PackageReference Include="Silk.NET.WGL.Extensions.NV" Version="2.21.0" />
 	</ItemGroup>
 
 	<ItemGroup>
