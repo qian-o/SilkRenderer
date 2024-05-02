@@ -67,7 +67,6 @@ public unsafe class RenderContext
 
             IWindow window = Window.Create(options);
 
-            window.CreateWindow(options);
             window.Initialize();
 
             GL = window.CreateOpenGL();
