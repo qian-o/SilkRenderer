@@ -73,7 +73,7 @@ public unsafe class RenderContext
             window.Initialize();
 
             GL = window.CreateOpenGL();
-            NVDXInterop = new(new LamdaNativeContext((name) => GL.Context.GetProcAddress(name)));
+            NVDXInterop = new(GL.Context);
 
             _sharedContextSettings = settings;
         }
