@@ -28,3 +28,7 @@ The project code structure is more cumbersome and complex, and the code structur
 - RenderContext: Rendering context, user management OpenGL and DirectX rendering environment.
 - Framebuffer: Frame buffer, user management OpenGL and DirectX frame buffer.
 - GameControl: Rendering control, management context and rendering.
+
+![image](https://github.com/qian-o/SilkRenderer/assets/84434846/fbc9e032-cfcb-453c-a3de-da8f88d78c3a)
+
+![image](https://github.com/qian-o/SilkRenderer/assets/84434846/43046f40-f496-4258-ba0f-7c0d437ab2b9)
