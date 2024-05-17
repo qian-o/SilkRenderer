@@ -4,10 +4,10 @@
 ## WPF、WinUI3 Use Silk.NET to draw examples (OpenGL, DirectX)
 
 ### 注意事项
-该项目代码结构较为繁琐复杂，代码结构比较混乱，仅供参考学习。
+该项目代码结构较为复杂、混乱，仅供参考学习。
 
 ### Precautions
-The project code structure is more cumbersome and complex, and the code structure is relatively messy, only for reference and learning.
+The project code structure is rather complex, messy, and is only for reference and learning purposes.
 
 ### 项目说明
 - 本项目是一个使用 Silk.NET 绘制图形的示例项目，包含了 WPF 和 WinUI3 两个项目，分别使用 OpenGL 和 DirectX 两种渲染方式。			
